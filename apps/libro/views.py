@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import AutorForm
 from .models import Autor
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,ListView
 # Create your views here.
 
 """
@@ -15,7 +15,17 @@ from django.views.generic import TemplateView
 
 class Inicio(TemplateView):
     template_name="index.html"
-    
+
+
+class ListadoAutores(ListView):
+   
+    template_name= 'libro/listar_autor.html'
+    queryset = Autor.objects.filter(estado = True)
+    context_object_name='autores'
+
+
+
+
 def crearAutor(request):
     if request.method == 'POST':
         autor_form = AutorForm(request.POST)
@@ -27,9 +37,6 @@ def crearAutor(request):
     return render(request,'libro/crear_autor.html',{'autor_form':autor_form})
 
 
-def listarAutor(request):
-    autores = Autor.objects.filter(estado = True)
-    return render(request,'libro/listar_autor.html',{'autores':autores})
 
 def editarAutor(request,id):
     autor_form = None
@@ -52,3 +59,10 @@ def eliminarAutor(request,id):
     autor.estado = False
     autor.save()
     return redirect('libro:listar_autor')
+
+
+"""
+    def listarAutor(request):
+        autores = Autor.objects.filter(estado = True)
+        return render(request,'libro/listar_autor.html',{'autores':autores})
+"""
