@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'biblio',
+        'NAME': 'biblio.sqlite3',
     }
 }
 
