@@ -1,5 +1,5 @@
 from django import forms
-from .models import Autor
+from .models import Autor,Libro
 
 class AutorForm(forms.ModelForm):
     class Meta:
@@ -40,4 +40,37 @@ class AutorForm(forms.ModelForm):
                     'id': 'descripcion'
                 }
             )
+        }
+
+
+
+class LibroForm(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = ['titulo','autor_id','fecha_publicacion',]
+        label = {
+            'titulo' : 'Titulo del autor',
+            'autor_id' : 'Nombre de los autores',
+            'fecha_publicacion' : 'Fecha de publicacion',
+        }
+        widgets = {
+            'titulo': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Ingrese el titulo del libro',
+                    'id': 'titulo'
+                }
+            ),
+            'autor_id': forms.SelectMultiple(
+                attrs={
+                    'class': 'form-control',
+                    'style': 'height:100px'
+                }
+            ),
+            'fecha_publicacion': forms.SelectDateWidget(
+                attrs={
+                    'class': 'form-control',
+                    'style': 'margin-top:5px'
+                }
+            ),
         }

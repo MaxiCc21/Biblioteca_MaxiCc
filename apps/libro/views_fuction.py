@@ -1,12 +1,3 @@
-from django.shortcuts import render,redirect
-from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import TemplateView,ListView,UpdateView,CreateView,DeleteView
-from django.urls import reverse_lazy
-
-from .forms import AutorForm
-from .models import Autor
-# Create your views here.
-
 def eliminarAutor(request,id):
     autor = Autor.objects.get(id = id)
     autor.estado = False
