@@ -26,8 +26,6 @@ urlpatterns = [
     path('libro/',include(('apps.libro.urls','libro'))),
     path('',login_required(Inicio.as_view()), name = 'index'),
     path('accounts/',include("django.contrib.auth.urls")),
-
-
 ]
 
 
