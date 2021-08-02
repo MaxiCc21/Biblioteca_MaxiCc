@@ -103,8 +103,6 @@ class ListarLibros(ListView):
     def get(self,request,*args, **kwargs):
         return render(request,self.template_name,context=self.get_context_data())
 
-
-
 class CrearLibro(CreateView):
     template_name="libro/crear_libro.html"
     form_class = LibroForm
@@ -129,7 +127,7 @@ class CrearLibro(CreateView):
 class ActualizarLibro(UpdateView):
     model=Libro
     form_class = LibroForm
-    template_name="libro/crear_libro.html"
+    template_name="libro/libro.html"
     success_url = reverse_lazy("libro:listar_libro")
 
 
