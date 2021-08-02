@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import TemplateView,ListView,UpdateView,CreateView,DeleteView
+from django.views.generic import View,TemplateView,ListView,CreateView,DeleteView
 from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView
 
 from .forms import AutorForm, LibroForm
 from .models import Autor, Libro
@@ -11,24 +12,67 @@ class Inicio(TemplateView):
     template_name="index.html"
 
 
-class ListadoAutores(ListView):
+class ListadoAutores(View):
+    model = Autor
     template_name= 'autor/listar_autor.html'
-    queryset = Autor.objects.filter(estado = True)
-    context_object_name='autores'
+    
 
+    def get_queryset(self):
+        return self.model.objects.filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        contexto = {}
+        contexto["autores"] = self.get_queryset()
+
+        return contexto
+
+    def get(self,request,*args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
 
 class ActualizarAutor(UpdateView):
-    template_name="autor/crear_autor.html"
     model=Autor
+    queryset = model.objects.filter(estado=True)
     form_class = AutorForm
-    success_url = reverse_lazy("librolistar_autor")
+    #pk_url_kwarg = '1' #!Ojo al tejo
+    success_url = reverse_lazy("libro:listar_autor")
+    template_name= 'autor/crear_autor.html'
 
+""""
+    def get_queryset(self,pk):
+        return self.model.objects.filter(id = pk)
+
+    def get_context_data(self,**kwargs):
+        contexto = {}
+        contexto['form'] = self.form_class(instance=self.get_context_data())
+        return contexto
+
+    def get(self,request,pk,*args,**kwargs):
+        contexto = {}
+        contexto['form'] = self.form_class
+        return render(request, self.template_name, context=)
+
+"""
+#! No funciono (Como poder pasar el pk o slug en una vista basada en clases)
+    
 
 class CrearAutor(CreateView):
-    template_name='autor/crear_autor.html'
-    model=Autor
     form_class = AutorForm
-    success_url = reverse_lazy("librolistar_autor")
+    template_name='autor/crear_autor.html'
+
+    def get_context_data(self, **kwargs):
+        contexto = {}
+        contexto["form"] = self.form_class
+        return contexto
+
+    def get(self, request,*args, **kwargs):
+        return render(request,self.template_name,self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("libro:listar_autor")
+
 
 class EliminarAutor(DeleteView):
     model = Autor
@@ -44,17 +88,43 @@ class EliminarAutor(DeleteView):
 ######################################################################################################################
 
 class ListarLibros(ListView):
+    model = Libro
     template_name='libro/listar_libro.html'
-    queryset = Libro.objects.filter(estado = True)
-    context_object_name = "libros"
+
+    def get_queryset(self):
+        return self.model.objects.filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        contexto = {}
+        contexto["libros"] = self.get_queryset()
+
+        return contexto
+
+    def get(self,request,*args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
 
 
 
 class CrearLibro(CreateView):
-    model=Libro
     template_name="libro/crear_libro.html"
     form_class = LibroForm
-    success_url = reverse_lazy("libro:listar_libro")
+
+    def get_context_data(self, **kwargs):
+        contexto = {}
+        contexto["form"] = self.form_class
+        return contexto
+
+    def get(self, request,*args, **kwargs):
+        return render(request,self.template_name,self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("libro:listar_libro")
+
+
+
     
 class ActualizarLibro(UpdateView):
     model=Libro
