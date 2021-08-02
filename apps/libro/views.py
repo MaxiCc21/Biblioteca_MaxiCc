@@ -130,10 +130,19 @@ class ActualizarLibro(UpdateView):
     template_name="libro/libro.html"
     success_url = reverse_lazy("libro:listar_libro")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class
+        context["object"] = self.get_object()
+        context["libros"] = self.model.objects.filter(estado=True)
+        return context
+    
+
 
 
 class EliminarLibro(DeleteView):
     model=Libro
+    template_name="libro/eliminar_libro.html"
     success_url = reverse_lazy("libro:listar_libro")
     
 
@@ -143,5 +152,7 @@ class EliminarLibro(DeleteView):
         object.save()
 
         return redirect('libro:listar_libro')
+        
+
 
     

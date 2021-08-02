@@ -16,10 +16,10 @@
                   <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Nacionalidad</th>
-                        <th>Descripcion</th>
+                        <th>Titulo</th>
+                        <th>Fechade publicacion</th>
+                        <th>Escritor</th>
+                        <th>fecha de creacion</th>
                         <th>Opciones</th>
                       </tr>
                   </thead>
@@ -36,8 +36,8 @@
                         </td>
                         <td>{{ libro.fecha_publicacion }}</td>
                         <td>
-                          <a href="{% url 'libro:eliminar_libro' libro.id %}" class="btn btn-danger">Eliminar</a>
                           <button onclick="abrir_modal_adicion('{% url 'libro:editar_libro' libro.id %}')" class="btn btn-primary">Editar</button>
+                          <button onclick="abrir_modal_eliminar('{% url 'libro:eliminar_libro' libro.id %}')" class="btn btn-danger">Eliminar</button>
                         </td>
                       </tr>
                     {% endfor %}
@@ -48,6 +48,11 @@
       {% else %}
         <h1>No existen libros registrados</h1>
       {% endif %}
+
+      <div class="modal fade" id="eliminacion" role="dialog" >
+
+
+      </div>
 
       <div class="modal fade" id="edicion" role="dialog" >
 
@@ -63,6 +68,15 @@
 var $ =jQuery.noConflict();
 function abrir_modal_adicion(url){
   $('#edicion').load(url,function(){
+    $(this).modal('show');
+    });
+}
+</script>
+
+<script>
+  var $ =jQuery.noConflict();
+  function abrir_modal_eliminar(url){
+  $('#eliminacion').load(url,function(){
     $(this).modal('show');
     });
 }

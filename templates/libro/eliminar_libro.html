@@ -1,13 +1,20 @@
-{% extends 'index.html' %}
-{% block titulo %}
-  Eliminación de Libro
-{% endblock titulo %}
-{% block body %}
-<form method="POST">
-  {% csrf_token %}
-  <h2>¿Desea elminar el registro {{ libro.titulo }}?</h2>
-    <button type = "submit">Eliminar</button>
-    <a href="{% url 'libro:listar_libro' %}">Cancelar</a>
-</form>
 
-{% endblock body %}
+
+
+<div class="modal-dialog modal-lg" role="document" >
+  <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <h2 class="modal-title">Eliminar Libro:</h2>
+      </div>
+      <form id="form_edicion"  action="{% url 'libro:eliminar_libro' object.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>¿Desea elminar el registro {{ libro.titulo }}?</h2><br><br><br>
+        <button style="margin-bottom: 25px;" class="btn btn-primary" type="button" data-dismiss="modal">Cancelar</button>
+        <button style="margin-bottom: 25px;" class="btn btn-danger" type ="submit">Eliminar</button>
+
+      </form>        
+  </div>
+</div> 
