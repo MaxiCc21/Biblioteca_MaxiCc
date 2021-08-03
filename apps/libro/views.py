@@ -31,28 +31,16 @@ class ListadoAutores(View):
 
 class ActualizarAutor(UpdateView):
     model=Autor
-    queryset = model.objects.filter(estado=True)
     form_class = AutorForm
-    #pk_url_kwarg = '1' #!Ojo al tejo
+    template_name= 'autor/editar_autor.html'
     success_url = reverse_lazy("libro:listar_autor")
-    template_name= 'autor/crear_autor.html'
 
-""""
-    def get_queryset(self,pk):
-        return self.model.objects.filter(id = pk)
-
-    def get_context_data(self,**kwargs):
-        contexto = {}
-        contexto['form'] = self.form_class(instance=self.get_context_data())
-        return contexto
-
-    def get(self,request,pk,*args,**kwargs):
-        contexto = {}
-        contexto['form'] = self.form_class
-        return render(request, self.template_name, context=)
-
-"""
-#! No funciono (Como poder pasar el pk o slug en una vista basada en clases)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class
+        context["object"] = self.get_object()
+        context["autores"] = self.model.objects.filter(estado=True)
+        return context
     
 
 class CrearAutor(CreateView):
@@ -76,7 +64,7 @@ class CrearAutor(CreateView):
 
 class EliminarAutor(DeleteView):
     model = Autor
-    success_url = reverse_lazy("libro:listar_autor")
+    template_name="autor/eliminar_autor.html"
 
     def post(self, request,pk,*args,**kwargs):
         object=Autor.objects.get(id = pk)
@@ -127,7 +115,7 @@ class CrearLibro(CreateView):
 class ActualizarLibro(UpdateView):
     model=Libro
     form_class = LibroForm
-    template_name="libro/libro.html"
+    template_name="libro/editar_libro.html"
     success_url = reverse_lazy("libro:listar_libro")
 
     def get_context_data(self, **kwargs):
@@ -138,13 +126,9 @@ class ActualizarLibro(UpdateView):
         return context
     
 
-
-
 class EliminarLibro(DeleteView):
     model=Libro
     template_name="libro/eliminar_libro.html"
-    success_url = reverse_lazy("libro:listar_libro")
-    
 
     def post(self, request,pk,*args,**kwargs):
         object=Libro.objects.get(id = pk)

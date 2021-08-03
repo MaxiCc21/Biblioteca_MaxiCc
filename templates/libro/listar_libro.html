@@ -36,8 +36,8 @@
                         </td>
                         <td>{{ libro.fecha_publicacion }}</td>
                         <td>
-                          <button onclick="abrir_modal_adicion('{% url 'libro:editar_libro' libro.id %}')" class="btn btn-primary">Editar</button>
-                          <button onclick="abrir_modal_eliminar('{% url 'libro:eliminar_libro' libro.id %}')" class="btn btn-danger">Eliminar</button>
+                          <button onclick="abrir_adicion_libro('{% url 'libro:editar_libro' libro.id %}')" class="btn btn-primary">Editar</button>
+                          <button onclick="abrir_eliminar_libro('{% url 'libro:eliminar_libro' libro.id %}')" class="btn btn-danger">Eliminar</button>
                         </td>
                       </tr>
                     {% endfor %}
@@ -66,7 +66,7 @@
 {% block extrajs%}
 <script type="text/javascript">
 var $ =jQuery.noConflict();
-function abrir_modal_adicion(url){
+function abrir_adicion_libro(url){
   $('#edicion').load(url,function(){
     $(this).modal('show');
     });
@@ -75,7 +75,7 @@ function abrir_modal_adicion(url){
 
 <script>
   var $ =jQuery.noConflict();
-  function abrir_modal_eliminar(url){
+  function abrir_eliminar_libro(url){
   $('#eliminacion').load(url,function(){
     $(this).modal('show');
     });
