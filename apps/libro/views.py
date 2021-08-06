@@ -16,14 +16,12 @@ class ListadoAutores(View):
     model = Autor
     template_name= 'autor/listar_autor.html'
     
-
     def get_queryset(self):
         return self.model.objects.filter(estado=True)
 
     def get_context_data(self, **kwargs):
         contexto = {}
         contexto["autores"] = self.get_queryset()
-
         return contexto
 
     def get(self,request,*args, **kwargs):

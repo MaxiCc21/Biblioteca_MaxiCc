@@ -28,19 +28,7 @@ class User_Manager(BaseUserManager):
         user.administator = True
         user.save()
         return user
-    
-
-    class Meta:
-        verbose_name = ("User_Manager")
-        verbose_name_plural = ("User_Managers")
-
-    def __str__(self):
-        return self.name
-
-
 class User(AbstractBaseUser):
-    """Model lo usuario
-    """
     id = models.AutoField(primary_key = True)
     username = models.CharField("Nombre de usuario", max_length=100,unique=True)
     email = models.EmailField("Correo electronico", max_length=150,unique=True)
