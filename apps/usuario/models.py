@@ -37,14 +37,10 @@ class User(AbstractBaseUser):
     image = models.ImageField("Imagen de perfil",max_length=None, upload_to="perfil/", height_field=None,width_field=None,blank=True,null=True)
     active_user = models.BooleanField(default=True)
     administator = models.BooleanField(default=False)
-    object = User_Manager()
+    objects = User_Manager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS=['email','name','last_name']
-
-    class Meta:
-        verbose_name = ("Usuario")
-        verbose_name_plural = ("Usuarios")
 
     def __str__(self):
         return ("{0}, {1}").format(self.name,self.last_name)

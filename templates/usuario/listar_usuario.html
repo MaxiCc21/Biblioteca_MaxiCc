@@ -1,1 +1,81 @@
-<h1>Holaaaa</h1>
+{% extends 'index.html' %}
+
+{% block titulo %}
+  Biblioteca.dev | Listado de Libros
+{% endblock titulo %}
+
+{% block body %}
+
+  {% if usuarios %}
+      <div class="card">
+          <div class="card-header">
+              <strong class="card-title">Listado de Libros</strong>
+          </div>
+          <div class="table-stats order-table ov-h">
+              <table class="table">
+                  <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre de usuario</th>
+                        <th>Email</th>
+                        <th>Usuario Habilitado</th>
+                        <th>Estado administrador</th>
+                        <th>Opciones</th>
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for usuario in usuarios %}
+                      <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.username }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>{{ usuario.active_user }}</td>
+                        <td>{{ usuario.administator }}</td>
+                        <td>
+                          <button onclick="abrir_adicion_usuario('{% url 'login:editar_usuario' usuario.id %}')" class="btn btn-primary" class="btn btn-primary">Editar</button>
+                          <button onclick="abrir_eliminar_usuario('{% url 'login:eliminar_usuario' usuario.id %}')" class="btn btn-danger">Eliminar</button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      {% else %}
+        <h1>No existen usuarios registrados</h1>
+      {% endif %}
+
+      <div class="modal fade" id="eliminacion" role="dialog" >
+
+
+      </div>
+
+      <div class="modal fade" id="edicion" role="dialog" >
+
+
+      </div>
+
+
+{% endblock body %}
+
+
+{% block extrajs%}
+<script type="text/javascript">
+var $ =jQuery.noConflict();
+function abrir_adicion_usuario(url){
+  $('#edicion').load(url,function(){
+    $(this).modal('show');
+    });
+}
+</script>
+
+<script>
+  var $ =jQuery.noConflict();
+  function abrir_eliminar_usuario(url){
+  $('#eliminacion').load(url,function(){
+    $(this).modal('show');
+    });
+}
+</script>
+{% endblock extrajs%}

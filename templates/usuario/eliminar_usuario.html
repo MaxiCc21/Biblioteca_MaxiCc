@@ -1,0 +1,18 @@
+<div class="modal-dialog modal-lg" role="document" >
+    <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            <h2 class="modal-title">Eliminar Usuario:</h2>
+        </div>
+        <form id="form_edicion"  action="{% url 'login:eliminar_usuario' object.id %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h2>¿Desea elminar el registro {{ usuario.username }}?</h2><br><br><br>
+          <button style="margin-bottom: 25px;" class="btn btn-primary" type="button" data-dismiss="modal">Cancelar</button>
+          <button style="margin-bottom: 25px;" class="btn btn-danger" type ="submit">Eliminar</button>
+  
+        </form>        
+    </div>
+  </div> 
+  
