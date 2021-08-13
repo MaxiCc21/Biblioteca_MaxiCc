@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import  AbstractBaseUser,BaseUserManager
+from django.contrib.auth.models import  AbstractBaseUser,BaseUserManager, PermissionsMixin
 # Create your models here.
 
 class User_Manager(BaseUserManager):
@@ -28,15 +28,15 @@ class User_Manager(BaseUserManager):
         user.administator = True
         user.save()
         return user
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
     id = models.AutoField(primary_key = True)
     username = models.CharField("Nombre de usuario", max_length=100,unique=True)
     email = models.EmailField("Correo electronico", max_length=150,unique=True)
     name = models.CharField("Nombre", max_length=200,blank=True,null=True)
     last_name = models.CharField("Apellido", max_length=50)
     image = models.ImageField("Imagen de perfil",max_length=None, upload_to="perfil/", height_field=None,width_field=None,blank=True,null=True)
-    active_user = models.BooleanField(default=True)
-    administator = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     objects = User_Manager()
 
     USERNAME_FIELD = 'username'
@@ -45,12 +45,3 @@ class User(AbstractBaseUser):
     def __str__(self):
         return ("{0}, {1}").format(self.name,self.last_name)
 
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self,app_label):
-        return True
-
-    @property
-    def is_staff(self):
-        return self.administator

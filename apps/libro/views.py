@@ -8,9 +8,6 @@ from .forms import AutorForm, LibroForm
 from .models import Autor, Libro
 # Create your views here.
 
-class Inicio(TemplateView):
-    template_name="index.html"
-
 
 class ListadoAutores(View):
     model = Autor

@@ -1,6 +1,6 @@
 function listadoUsuarios(){
     $.ajax({
-        url: "/usuarios/listado_usuarios/",
+        url: "/login/listar_usuario/",
         type:"get",
         dataType: "json",
         success: function(response){
@@ -16,9 +16,9 @@ function listadoUsuarios(){
                 fila += '<td>' + response[i]["fields"]['apellidos'] + '</td>';
                 fila += '<td>' + response[i]["fields"]['email'] + '</td>';
                 fila += '<td><button type = "button" class = "btn btn-primary btn-sm tableButton"';
-                fila += ' onclick = "abrir_modal_edicion(\'/usuarios/actualizar_usuario/' + response[i]['pk']+'/\');"> EDITAR </button>';
+                fila += ' onclick = "abrir_modal_edicion(\'/login/actualizar_usuario/' + response[i]['pk']+'/\');"> EDITAR </button>';
                 fila += '<button type = "button" class = "btn btn-danger tableButton  btn-sm" ';
-                fila += 'onclick = "abrir_modal_eliminacion(\'/usuarios/eliminar_usuario/' + response[i]['pk'] +'/\');"> ELIMINAR </buttton></td>';
+                fila += 'onclick = "abrir_modal_eliminacion(\'/login/eliminar_usuario/' + response[i]['pk'] +'/\');"> ELIMINAR </buttton></td>';
                 fila += '</tr>';
                 $('#tabla_usuarios tbody').append(fila);
             }
@@ -91,7 +91,7 @@ function eliminar(pk) {
         data:{
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/usuarios/eliminar_usuario/'+pk+'/',
+        url: '/login/eliminar_usuario/'+pk+'/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
